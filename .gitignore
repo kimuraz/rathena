@@ -112,6 +112,9 @@ Thumbs.db
 /build/
 /cbuild/
 
+# Vim
+*.swp
+
 # bat tools
 /charserv.bat
 /csv2yaml.bat

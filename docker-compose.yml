@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  db:
+    image: mariadb:10-focal
+    restart: always
+    command: --max_allowed_packet=32505856
+    environment:
+      MYSQL_ROOT_PASSWORD: s3cr3t!!!
+      MYSQL_DATABASE: ragnarok
+      MYSQL_USER: ragnarok
+      MYSQL_PASSWORD: ragnarok
+    volumes:
+      - db_data:/var/lib/mysql
+
+  db_admin:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  server:
+    build: .
+    ports:
+      - 6900:6900
+      - 6121:6121
+      - 5121:5121
+    command: ["./athena-start", "watch"] 
+    depends_on:
+      - db
+    volumes:
+      - ${PWD}/docker/inter_athena.conf:/opt/rathena/conf/inter_athena.conf
+
+volumes:
+  db_data:
